@@ -1,13 +1,11 @@
 {
     "appenders": {
         "out": { "type": "console" }, 
-        "task": { "type": "dateFile", "filename": "logs/server.log","pattern":"_yyyy-MM-dd","maxLogSize": 1024, "alwaysIncludePattern":true }, 
-        "error": { "type": "dateFile", "filename": "logs/error.log", "pattern":"_yyyy-MM-dd","maxLogSize": 1024,"alwaysIncludePattern":true},
-        "default": { "type": "dateFile", "filename": "logs/default", "pattern":"_yyyy-MM-dd","maxLogSize": 1024,"alwaysIncludePattern":true}
+        "default": { "type": "dateFile", "filename": "logs/default", "pattern":"_yyyy-MM-dd","maxLogSize": 1024,"alwaysIncludePattern":true},
+        "error": { "type": "dateFile", "filename": "logs/error.log", "pattern":"_yyyy-MM-dd","maxLogSize": 1024,"alwaysIncludePattern":true}
     },
     "categories": {
         "default": { "appenders": ["out", "default"], "level": "info" },
-        "task": { "appenders": ["task"], "level": "info" },
         "error": { "appenders": ["error"], "level": "error" }
     }
 }
