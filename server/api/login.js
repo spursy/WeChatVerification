@@ -1,9 +1,17 @@
-const Koa = require('koa');
-const app = new Koa();
-const config = require('../config');
 const log = require('../../common/log');
+const config = require('../config');
+const Router = require('koa-router');
+const router = new Router();
 
-app.get('/qrcode', function (req, res) {
-    log.info(">>>>>>>Success!");
-})
+module.exports = function(app) {
+    router.get('/api/login/login',  function(ctx, next) {
+        ctx.body = 'Hello World';
+    })
+    
+    router.post('/api/login/logout',  function(ctx, next) {
+        ctx.body = 'Hello World';
+    })
 
+    app.use(router.routes());
+    app.use(router.allowedMethods());
+}
