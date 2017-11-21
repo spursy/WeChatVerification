@@ -12,6 +12,11 @@ module.exports = function(app) {
         ctx.body = 'Hello World';
     })
 
+    router.get('/api/login/qrcode', function(ctx, next) {
+        const TAG = log.TAG(ctx.request);
+        log.info(TAG, ctx.request);
+    })
+
     app.use(router.routes());
     app.use(router.allowedMethods());
 }

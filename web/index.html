@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <style>
-
         body {
             font-family: 'Roboto', sans-serif;
             font-size: 16px;
@@ -137,11 +136,12 @@
 <script>
     jQuery(document).ready(function() {
         $.ajax({
-            "url": "/api/login/qrcode",
+            "url": "http://localhost:8090/api/login/qrcode",
             "method": "GET",
             "cache": false,
             "data": {}
         }).success(function (data, status, header) {
+            alert(data.qrcode)
             $('#qrcode').attr("src",data.qrcode);
             check(data.token,data.expire);
         }).fail(function (header, status, errorThrown) {
