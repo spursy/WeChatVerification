@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>微信验证</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <style>
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            font-weight: 300;
+            color: #888;
+            line-height: 30px;
+            text-align: center;
+            background: url("images/backgrounds/1.jpg");
+        }
+        .row{
+            margin-top: 10px;
+        }
+        strong { font-weight: 500; }
+
+        a, a:hover, a:focus {
+            color: #4aaf51;
+            text-decoration: none;
+            -o-transition: all .3s; -moz-transition: all .3s; -webkit-transition: all .3s; -ms-transition: all .3s; transition: all .3s;
+        }
+
+        h1, h2 {
+            margin-top: 10px;
+            font-size: 38px;
+            font-weight: 100;
+            color: #555;
+            line-height: 50px;
+        }
+
+        h3 {
+            font-size: 22px;
+            font-weight: 300;
+            color: #999;
+            line-height: 30px;
+        }
+
+        img { max-width: 200px; }
+
+        ::-moz-selection { background: #4aaf51; color: #fff; text-shadow: none; }
+        ::selection { background: #4aaf51; color: #fff; text-shadow: none; }
+
+
+
+
+        /***** Top content *****/
+
+        .inner-bg {
+            padding: 100px 0 170px 0;
+        }
+
+        .top-content .text {
+            color: #fff;
+        }
+
+        .top-content .text h1 { color: #fff; }
+
+        .top-content .description {
+            margin: 20px 0 10px 0;
+        }
+
+        .top-content .description p { opacity: 0.8; }
+
+        .top-content .description a {
+            color: #fff;
+        }
+        .top-content .description a:hover,
+        .top-content .description a:focus { border-bottom: 1px dotted #fff; }
+
+        /***** Media queries *****/
+
+        @media (min-width: 992px) and (max-width: 1199px) {}
+
+        @media (min-width: 768px) and (max-width: 991px) {}
+
+        @media (max-width: 767px) {
+
+            .inner-bg { padding: 60px 0 110px 0; }
+
+        }
+
+        @media (max-width: 415px) {
+
+            h1, h2 { font-size: 32px; }
+
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Top content -->
+<div class="top-content">
+
+    <div class="inner-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2 text">
+                    <h1><strong>扫码进入</strong></h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                </div>
+                <div class="col-lg-4">
+                    <img src="" id="qrcode"/>
+                </div>
+                <div class="col-lg-4">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" style="text-align: center;">
+
+                    <h3>联系邮箱：spursyy@outlook.com</h3>
+                    <h3>博客地址：<a href="http://www.jianshu.com/u/f309c2705dc4">http://www.jianshu.com/u/f309c2705dc4</a></h3>
+                    <h3>GitHub地址：<a href="https://github.com/spursy">https://github.com/spursy</a></h3>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    jQuery(document).ready(function() {
+        $.ajax({
+            "url": "/api/login/qrcode",
+            "method": "GET",
+            "cache": false,
+            "data": {}
+        }).success(function (data, status, header) {
+            $('#qrcode').attr("src",data.qrcode);
+            check(data.token,data.expire);
+        }).fail(function (header, status, errorThrown) {
+
+        })
+    });
+    var check = function (token,expire) {
+        if(expire>0){
+            console.log(token+","+expire);
+            $.ajax({
+                "url":  "/api/login/code",
+                "method": "GET",
+                "cache": false,
+                "data": {token: token}
+            }).success(function (ret, status, header) {
+                if (ret.code){
+                    location.href = "/api/login/authorize?code="+ret.code;
+                }else{
+                    setTimeout(function () {
+                        check(token,expire-1);
+                    }, 1000);
+                }
+            }).fail(function (header, status, errorThrown) {
+
+            })
+        }
+    }
+</script>
+</body>
+
+</html>
