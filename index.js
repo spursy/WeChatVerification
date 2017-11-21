@@ -11,8 +11,9 @@ process.title = '微信验证';
 //   ctx.body = 'Hello Koa';
 // });
 app.use(koa_static({rootDir: __dirname + '/web'}));
-
 app.use(favicon(__dirname + '/web/image/me.png'));
+
+app.use('/api/login', require('./server/api/login'));
 
 app.listen(config.PORT);
 var TAG = log.TAG();
