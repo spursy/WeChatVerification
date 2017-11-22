@@ -1,20 +1,24 @@
 const log = require('../../common/log');
 const config = require('../config');
 const Router = require('koa-router');
-const router = new Router();
+const router = new Router({
+    prefix: '/api/login'
+});
 
 module.exports = function(app) {
-    router.get('/api/login/login',  function(ctx, next) {
+    router.get('/login',  function(ctx, next) {
         ctx.body = 'Hello World';
     })
     
-    router.post('/api/login/logout',  function(ctx, next) {
+    router.post('/logout',  function(ctx, next) {
         ctx.body = 'Hello World';
     })
 
-    router.get('/api/login/qrcode', function(ctx, next) {
-        const TAG = log.TAG(ctx.request);
-        log.info(TAG, ctx.request);
+    router.get('/qrcode', function(ctx, next) {
+        var TAG = log.TAG(ctx.request);
+        log.info(TAG, ctx.request.query);
+        ctx.body = 'Hello World';
+        ctx.render({qrcode: "1231"})
     })
 
     app.use(router.routes());
