@@ -135,13 +135,14 @@
 
 <script>
     jQuery(document).ready(function() {
+        
         $.ajax({
             "url": "/api/login/qrcode",
             "method": "GET",
             "cache": false,
             "data": {}
         }).success(function (data, status, header) {
-            alert('123')
+            alert(JSON.stringify(data.qrcode))
             $('#qrcode').attr("src",data.qrcode);
             check(data.token,data.expire);
         }).error(function (header, status, errorThrown) {
