@@ -22,11 +22,12 @@ module.exports = function(app) {
     })
 
     router.get('/qrcode', async function(ctx, next) {
+        // add log
         var TAG = log.TAG(ctx.request);
         log.info(TAG, ctx.request.query);
-
+        //set guid as token id
         var token = new Buffer(guid.create()).toString("base64");
-        var expire = 120;//秒,2分钟后过期
+        var expire = 120;//second
         var now_time =utility.getSecond();
         var item = {
             userid:0,
@@ -39,6 +40,7 @@ module.exports = function(app) {
         });
         token_list.push(item);
     
+        //generate qrcode
         var url = config.BASE_URL+"/api/login/qrcode/login?token="+token;
         var opts = {
             errorCorrectionLevel: 'H',
@@ -46,10 +48,9 @@ module.exports = function(app) {
             rendererOpts: {
                 quality: 1
             }
-        }
-        
-        
+        }        
         var qrcode = await QRCodeTransform(url,opts);
+        
         ctx.body = {qrcode: qrcode};
     })
 
