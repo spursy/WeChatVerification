@@ -51,12 +51,13 @@ module.exports = function(app) {
         }        
         var qrcode = await QRCodeTransform(url,opts);
         
-        ctx.body = {qrcode: qrcode};
+        ctx.body = {qrcode:qrcode,expire:expire,token:token};
     })
 
     router.get('/check', async (ctx, next) => {
-        var TAG = logger.TAG(req);
-        if(req.query.token){
+        var TAG = log.TAG( ctx.request);
+        log.info(TAG, ctx.request)
+        if(ctx.request.token){
             var now_time = utility.getSecond();
             var token = _.find(token_list,function(item){
                 "use strict";
@@ -66,12 +67,13 @@ module.exports = function(app) {
             if(token&&token.userid!=0){
                 var str = token.userid+"|"+now_time;
                 var code = Crypto.encode(str)
-                res.send({code:code});
+                log.info(TAG, code);
+                ctx.body = {code:code};
             }else{
-                res.send({});
+                ctx.body = {};
             }
         }else{
-            res.send({});
+            ctx.body = {};
         }
     })
 

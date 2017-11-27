@@ -12,7 +12,7 @@ process.title = '微信验证';
 app.use(koa_static(__dirname+'/node_modules'));
 app.use(koa_static(__dirname+'/web'));
 
-app.use(favicon('../image/me.png'));
+app.use(favicon('./web/image/me.png'));
 
 router(app);
 

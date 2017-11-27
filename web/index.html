@@ -142,7 +142,6 @@
             "cache": false,
             "data": {}
         }).success(function (data, status, header) {
-            alert(JSON.stringify(data.qrcode))
             $('#qrcode').attr("src",data.qrcode);
             check(data.token,data.expire);
         }).error(function (header, status, errorThrown) {
@@ -158,7 +157,6 @@
                 "cache": false,
                 "data": {token: token}
             }).success(function (ret, status, header) {
-                alert(JSON.stringify(ret));
                 if (ret.code){
                     location.href = "/api/login/authorize?code="+ret.code;
                 }else{
