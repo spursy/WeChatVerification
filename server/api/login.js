@@ -56,7 +56,7 @@ module.exports = function(app) {
 
     router.get('/check', async (ctx, next) => {
         var TAG = log.TAG( ctx.request);
-        log.info(TAG, ctx.request)
+        log.info(TAG, ctx.request.query)
         if(ctx.request.token){
             var now_time = utility.getSecond();
             var token = _.find(token_list,function(item){
@@ -75,6 +75,10 @@ module.exports = function(app) {
         }else{
             ctx.body = {};
         }
+    })
+
+    router.post('/',async function (ctx, next) {
+        const body = ctx.request.body;
     })
 
     app.use(router.routes());
