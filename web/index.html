@@ -153,11 +153,12 @@
         if(expire>0){
             console.log(token+","+expire);
             $.ajax({
-                "url":  "/api/login/code",
+                "url":  "/api/login/check",
                 "method": "GET",
                 "cache": false,
                 "data": {token: token}
             }).success(function (ret, status, header) {
+                alert(JSON.stringify(ret));
                 if (ret.code){
                     location.href = "/api/login/authorize?code="+ret.code;
                 }else{

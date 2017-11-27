@@ -54,6 +54,27 @@ module.exports = function(app) {
         ctx.body = {qrcode: qrcode};
     })
 
+    router.get('/check', async (ctx, next) => {
+        var TAG = logger.TAG(req);
+        if(req.query.token){
+            var now_time = utility.getSecond();
+            var token = _.find(token_list,function(item){
+                "use strict";
+                return item.expire_time - now_time >0 && 
+                    item.token == ctx.request.token;
+            })
+            if(token&&token.userid!=0){
+                var str = token.userid+"|"+now_time;
+                var code = Crypto.encode(str)
+                res.send({code:code});
+            }else{
+                res.send({});
+            }
+        }else{
+            res.send({});
+        }
+    })
+
     app.use(router.routes());
     app.use(router.allowedMethods());
 }
